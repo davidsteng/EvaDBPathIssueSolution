@@ -26,7 +26,7 @@ THIS_DIR = dirname(__file__)
 EvaDB_CODE_DIR = abspath(join(THIS_DIR, ".."))
 sys.path.append(EvaDB_CODE_DIR)
 
-from evadb.evadb_config import BASE_EVADB_CONFIG  # noqa: E402
+from evadb.configuration.configuration_manager import ConfigurationManager  # noqa: E402
 from evadb.server.interpreter import start_cmd_client  # noqa: E402
 
 
@@ -61,9 +61,13 @@ def main():
     # PARSE ARGS
     args, unknown = parser.parse_known_args()
 
-    host = args.host if args.host else BASE_EVADB_CONFIG["host"]
+    host = (
+        args.host if args.host else ConfigurationManager().get_value("server", "host")
+    )
 
-    port = args.port if args.port else BASE_EVADB_CONFIG["port"]
+    port = (
+        args.port if args.port else ConfigurationManager().get_value("server", "port")
+    )
     asyncio.run(evadb_client(host, port))
 
 

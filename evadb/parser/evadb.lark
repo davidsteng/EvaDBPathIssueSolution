@@ -53,7 +53,7 @@ function_metadata_key: uid
 
 function_metadata_value: constant
 
-vector_store_type: USING (FAISS | QDRANT | PINECONE | PGVECTOR | CHROMADB | MILVUS)
+vector_store_type: USING (FAISS | QDRANT | PINECONE | PGVECTOR | CHROMADB)
 
 index_elem: ("(" uid_list ")"
           | "(" function_call ")")
@@ -84,7 +84,7 @@ set_statement: SET config_name (EQUAL_SYMBOL | TO) config_value
 
 config_name: uid
 
-config_value: constant
+config_value: (string_literal | decimal_literal | boolean_literal | real_literal)
 
 // Data Manipulation Language
 
@@ -424,7 +424,6 @@ QDRANT:                              "QDRANT"i
 PINECONE:                            "PINECONE"i
 PGVECTOR:                            "PGVECTOR"i
 CHROMADB:                            "CHROMADB"i
-MILVUS:                              "MILVUS"i
 
 // Computer vision tasks
 
@@ -580,8 +579,8 @@ GLOBAL_ID:                           "@" "@" (/[A-Z0-9._$]+/ | BQUOTA_STRING)
 
 EXPONENT_NUM_PART:          /"E" "-"? DEC_DIGIT+/
 ID_LITERAL:                 /[A-Za-z_$0-9]*?[A-Za-z_$]+?[A-Za-z_$0-9]*/
-DQUOTA_STRING:              "\"" /(?:[^"\\]|\\.)*"/
-SQUOTA_STRING:              "'" /(?:[^'\\]|\\.)*'/
+DQUOTA_STRING:              /"[^";]*"/
+SQUOTA_STRING:              /'[^';]*'/
 BQUOTA_STRING:              /`[^'`]*`/
 QUERY_STRING:               /[^{};]+/
 DEC_DIGIT:                  /[0-9]/
